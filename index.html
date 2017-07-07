@@ -1,0 +1,63 @@
+<html>
+<head>
+	<title></title>
+	<!-- Vue -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- Firebase -->
+  <script src="https://gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+  <!-- VueFire -->
+  <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDZYUi8jcN9n-Q0TslwmOuKOUJT6SJi0f8",
+    authDomain: "sample-project-e209a.firebaseapp.com",
+    databaseURL: "https://sample-project-e209a.firebaseio.com",
+    projectId: "sample-project-e209a",
+    storageBucket: "sample-project-e209a.appspot.com",
+    messagingSenderId: "619189319351"
+  };
+  firebase.initializeApp(config);
+</script>
+</head>
+<body>
+	<div id="app">
+		<h1>{{mensahe}}</h1>
+		<ul>
+			<li v-for="msg in messages">
+				{{msg.data}}
+			</li>
+		</ul>
+		<input type="text" v-model="mensahe">
+		<button @click="send">SEND</button>
+	</div>
+	<script>
+		var db = firebase.database()
+
+
+		var vm = new Vue({
+		  el: '#app',
+		  firebase: function () {
+		    return {
+		      messages: db.ref('messages')
+		    }
+		  },
+		  data: {
+		  	mensahe: 'hello'
+		  },
+		  methods: {
+
+		  	send (){
+		  		let msg ={
+		  		data: this.mensahe
+		  		}
+		  		this.$firebaseRefs.messages.push(msg)
+		  	}
+		  }
+		})
+	</script>
+</body>
+</html>
